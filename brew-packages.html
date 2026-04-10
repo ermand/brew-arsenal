@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ermand's Brew Arsenal — Dev Stack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0f;
+    --surface: #161618;
+    --surface2: #1e1e21;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8e8ea;
+    --muted: #6b6b72;
+    --accent: #a78bfa;
+    --accent2: #34d399;
+    --accent3: #fb923c;
+    --accent4: #38bdf8;
+    --accent5: #f472b6;
+
+    --cat-shell: #34d399;
+    --cat-cli: #a78bfa;
+    --cat-git: #fb923c;
+    --cat-devops: #38bdf8;
+    --cat-runtime: #f472b6;
+    --cat-nodejs: #34d399;
+    --cat-python: #facc15;
+    --cat-database: #38bdf8;
+    --cat-security: #fb7185;
+    --cat-network: #38bdf8;
+    --cat-media: #fb923c;
+    --cat-graphics: #f472b6;
+    --cat-fonts: #6b6b72;
+    --cat-build: #facc15;
+    --cat-devlib: #6b6b72;
+    --cat-devtools: #a78bfa;
+    --cat-api: #34d399;
+    --cat-ai: #c084fc;
+    --cat-ios: #38bdf8;
+    --cat-android: #34d399;
+    --cat-macos: #fb923c;
+    --cat-terminal: #a78bfa;
+    --cat-pdf: #6b6b72;
+    --cat-math: #6b6b72;
+    --cat-crypto: #facc15;
+    --cat-compress: #6b6b72;
+    --cat-system: #6b6b72;
+    --cat-editor: #c084fc;
+    --cat-testing: #34d399;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Subtle grid texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 0 2rem 4rem; }
+
+  /* Header */
+  header {
+    padding: 3.5rem 0 2.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .header-title h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  .header-title h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .header-meta {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .header-stats {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    text-align: right;
+  }
+
+  .stat-num {
+    display: block;
+    font-family: 'Instrument Serif', serif;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* Controls */
+  .controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+    max-width: 340px;
+  }
+
+  .search-wrap svg {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    color: var(--muted);
+  }
+
+  input[type=text] {
+    width: 100%;
+    padding: 8px 12px 8px 32px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  input[type=text]:focus { border-color: var(--accent); }
+  input[type=text]::placeholder { color: var(--muted); }
+
+  .view-toggle {
+    display: flex;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .view-btn {
+    padding: 8px 12px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .view-btn.active { background: var(--surface2); color: var(--text); }
+
+  .results-count {
+    margin-left: auto;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    align-self: center;
+  }
+
+  /* Category filters */
+  .cat-bar {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cat-btn {
+    padding: 4px 11px;
+    border-radius: 99px;
+    border: 1px solid var(--border2);
+    background: none;
+    color: var(--muted);
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .cat-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+  .cat-btn.active { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25); color: var(--text); }
+
+  /* Grid view */
+  .pkg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .pkg-card {
+    background: var(--surface);
+    padding: 14px 16px;
+    transition: background 0.12s;
+    position: relative;
+  }
+
+  .pkg-card:hover { background: var(--surface2); }
+
+  .pkg-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .pkg-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.12s;
+    word-break: break-all;
+    line-height: 1.3;
+  }
+
+  .pkg-name:hover { color: var(--accent); }
+
+  .pkg-link {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    text-decoration: none;
+    transition: all 0.12s;
+    font-size: 11px;
+    margin-top: 1px;
+  }
+
+  .pkg-link:hover { background: rgba(167,139,250,0.15); border-color: var(--accent); color: var(--accent); }
+
+  .pkg-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .pkg-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .cat-tag {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 99px;
+    border: 1px solid;
+    opacity: 0.85;
+    white-space: nowrap;
+  }
+
+  .type-badge {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+  }
+
+  /* List view */
+  .pkg-list { display: none; }
+  .pkg-list.active { display: block; }
+  .pkg-grid.active { display: grid; }
+  .pkg-grid:not(.active) { display: none; }
+
+  .list-section { margin-bottom: 2rem; }
+
+  .list-section-title {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    padding: 0 0 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0;
+  }
+
+  .list-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 140px 80px;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    transition: background 0.1s;
+  }
+
+  .list-row:hover { background: rgba(255,255,255,0.02); margin: 0 -8px; padding: 10px 8px; border-radius: 4px; }
+
+  .list-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .list-name:hover { color: var(--accent); }
+
+  .list-desc {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .list-cat { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
+
+  .list-link {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.12s;
+    justify-content: flex-end;
+  }
+
+  .list-link:hover { color: var(--accent); }
+
+  /* Section headers */
+  .section-divider {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin: 2rem 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    padding: 3rem;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    display: none;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="header-title">
+      <h1>Ermand's Brew <em>Arsenal</em></h1>
+      <div class="header-meta">~ brew list · last updated 2026-04-10</div>
+    </div>
+    <div class="header-stats">
+      <div class="stat">
+        <span class="stat-num" id="totalCount">—</span>
+        <span class="stat-label">total packages</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">—</span>
+        <span class="stat-label" id="formulaeStat">formulae</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">—</span>
+        <span class="stat-label" id="casksStat">casks</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="search" placeholder="Search packages..." oninput="render()">
+    </div>
+    <div class="view-toggle">
+      <button class="view-btn active" id="gridBtn" onclick="setView('grid')" title="Grid view">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      </button>
+      <button class="view-btn" id="listBtn" onclick="setView('list')" title="List view">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+    <span class="results-count" id="resultCount"></span>
+  </div>
+
+  <div class="cat-bar" id="catBar"></div>
+
+  <div class="pkg-grid active" id="gridView"></div>
+  <div class="pkg-list" id="listView"></div>
+  <div class="empty" id="empty">No packages match your search.</div>
+</div>
+
+<script>
+const packages = [
+  // Formulae
+  {n:"acli",t:"formula",c:"Cloud/DevOps",d:"AWS CLI alternative — manage AWS services from terminal",gh:"https://github.com/nicholasgasior/acli"},
+  {n:"act",t:"formula",c:"DevOps",d:"Run GitHub Actions locally for testing CI/CD pipelines",gh:"https://github.com/nektos/act"},
+  {n:"bash",t:"formula",c:"Shell",d:"GNU Bourne Again Shell — updated version beyond macOS default",gh:"https://github.com/bminor/bash"},
+  {n:"bat",t:"formula",c:"CLI Tools",d:"cat replacement with syntax highlighting and Git integration",gh:"https://github.com/sharkdp/bat"},
+  {n:"btop",t:"formula",c:"System Monitor",d:"Beautiful resource monitor — CPU, memory, disks, network",gh:"https://github.com/aristocratos/btop"},
+  {n:"direnv",t:"formula",c:"Shell",d:"Load/unload env vars per directory via .envrc files",gh:"https://github.com/direnv/direnv"},
+  {n:"dotnet",t:"formula",c:"Runtime",d:".NET SDK — run C#/F# apps and ASP.NET Core",gh:"https://github.com/dotnet/sdk"},
+  {n:"dust",t:"formula",c:"CLI Tools",d:"du (disk usage) replacement — visual tree of space hogs",gh:"https://github.com/bootandy/dust"},
+  {n:"eza",t:"formula",c:"CLI Tools",d:"Modern ls replacement with colors, icons, git status",gh:"https://github.com/eza-community/eza"},
+  {n:"fd",t:"formula",c:"CLI Tools",d:"Fast, user-friendly find alternative",gh:"https://github.com/sharkdp/fd"},
+  {n:"fnm",t:"formula",c:"Node.js",d:"Fast Node.js version manager — like nvm but much faster",gh:"https://github.com/Schniz/fnm"},
+  {n:"fzf",t:"formula",c:"CLI Tools",d:"Fuzzy finder for terminal — search files, history, anything",gh:"https://github.com/junegunn/fzf"},
+  {n:"gh",t:"formula",c:"Git",d:"Official GitHub CLI — PRs, issues, repos from terminal",gh:"https://github.com/cli/cli"},
+  {n:"glab",t:"formula",c:"Git",d:"GitLab CLI — like gh but for GitLab",gh:"https://gitlab.com/gitlab-org/cli"},
+  {n:"glib",t:"formula",c:"Build Tools",d:"Core utility library for GObject/GTK-based software",gh:"https://github.com/GNOME/glib"},
+  {n:"go",t:"formula",c:"Runtime",d:"Go programming language compiler and tools",gh:"https://github.com/golang/go"},
+  {n:"htop",t:"formula",c:"System Monitor",d:"Interactive process viewer — like top but much better",gh:"https://github.com/htop-dev/htop"},
+  {n:"hurl",t:"formula",c:"API/Testing",d:"HTTP testing tool using plain text files — great for API tests",gh:"https://github.com/Orange-OpenSource/hurl"},
+  {n:"hyperfine",t:"formula",c:"CLI Tools",d:"Command-line benchmarking tool with statistical analysis",gh:"https://github.com/sharkdp/hyperfine"},
+  {n:"imagemagick",t:"formula",c:"Graphics",d:"CLI image conversion, resizing, manipulation powerhouse",gh:"https://github.com/ImageMagick/ImageMagick"},
+  {n:"jq",t:"formula",c:"CLI Tools",d:"JSON processor for the command line — slice, filter, map",gh:"https://github.com/jqlang/jq"},
+  {n:"just",t:"formula",c:"Build Tools",d:"Command runner — simpler makefile alternative",gh:"https://github.com/casey/just"},
+  {n:"k6",t:"formula",c:"API/Testing",d:"Modern load testing tool for APIs and services",gh:"https://github.com/grafana/k6"},
+  {n:"lazydocker",t:"formula",c:"DevOps",d:"Terminal UI for Docker — manage containers/images visually",gh:"https://github.com/jesseduffield/lazydocker"},
+  {n:"lazygit",t:"formula",c:"Git",d:"Terminal UI for git — stage, commit, branch with ease",gh:"https://github.com/jesseduffield/lazygit"},
+  {n:"mole",t:"formula",c:"Networking",d:"SSH tunnel manager — easily forward remote ports",gh:"https://github.com/mole-org/mole"},
+  {n:"neovim",t:"formula",c:"Editor",d:"Hyperextensible Vim-based text editor",gh:"https://github.com/neovim/neovim"},
+  {n:"opencode",t:"formula",c:"AI/Dev",d:"Open-source AI coding assistant for the terminal",gh:"https://github.com/opencode-ai/opencode"},
+  {n:"pnpm",t:"formula",c:"Node.js",d:"Fast, disk-efficient npm alternative",gh:"https://github.com/pnpm/pnpm"},
+  {n:"pyenv",t:"formula",c:"Python",d:"Python version manager — switch between Python versions",gh:"https://github.com/pyenv/pyenv"},
+  {n:"python@3.14",t:"formula",c:"Python",d:"Python 3.14 interpreter — dev/preview version",gh:"https://github.com/python/cpython"},
+  {n:"redis",t:"formula",c:"Database",d:"In-memory data store — caching, queues, pub/sub",gh:"https://github.com/redis/redis"},
+  {n:"ripgrep",t:"formula",c:"CLI Tools",d:"Extremely fast grep with .gitignore awareness",gh:"https://github.com/BurntSushi/ripgrep"},
+  {n:"ruby",t:"formula",c:"Runtime",d:"Ruby programming language interpreter",gh:"https://github.com/ruby/ruby"},
+  {n:"sqlite",t:"formula",c:"Database",d:"Embedded SQL database — used by countless applications",gh:"https://github.com/sqlite/sqlite"},
+  {n:"starship",t:"formula",c:"Shell",d:"Fast, customizable shell prompt for any shell",gh:"https://github.com/starship/starship"},
+  {n:"taproom",t:"formula",c:"Dev Tools",d:"Homebrew tap management helper",gh:"https://github.com/MikeMcQuaid/taproom"},
+  {n:"telnet",t:"formula",c:"Networking",d:"Telnet client — mostly used for debugging TCP connections",gh:"https://github.com/bminor/inetutils"},
+  {n:"tmux",t:"formula",c:"Shell",d:"Terminal multiplexer — split panes, sessions, persistent tabs",gh:"https://github.com/tmux/tmux"},
+  {n:"tokei",t:"formula",c:"Dev Tools",d:"Count lines of code by language — blazing fast",gh:"https://github.com/XAMPPRocky/tokei"},
+  {n:"tree-sitter",t:"formula",c:"Editor",d:"Parser generator and incremental parsing library used by Neovim",gh:"https://github.com/tree-sitter/tree-sitter"},
+  {n:"wget",t:"formula",c:"Networking",d:"Non-interactive file downloader from the web",gh:"https://github.com/mirror/wget"},
+  {n:"worktrunk",t:"formula",c:"Git",d:"Git worktree manager — work on multiple branches simultaneously",gh:"https://github.com/nicholasgasior/worktrunk"},
+  {n:"yarn",t:"formula",c:"Node.js",d:"Alternative npm package manager for JavaScript",gh:"https://github.com/yarnpkg/berry"},
+  {n:"yazi",t:"formula",c:"CLI Tools",d:"Blazing fast terminal file manager with image preview",gh:"https://github.com/sxyazi/yazi"},
+  {n:"yt-dlp",t:"formula",c:"Media",d:"Download videos from YouTube and 1000+ other sites",gh:"https://github.com/yt-dlp/yt-dlp"},
+  {n:"zoxide",t:"formula",c:"Shell",d:"Smarter cd — jump to frecently used directories",gh:"https://github.com/ajeetdsouza/zoxide"},
+  {n:"zsh-completions",t:"formula",c:"Shell",d:"Additional tab completions for Zsh",gh:"https://github.com/zsh-users/zsh-completions"},
+  // Casks
+  {n:"aerospace",t:"cask",c:"macOS",d:"Tiling window manager for macOS",gh:"https://github.com/nikitabobko/AeroSpace"},
+  {n:"android-platform-tools",t:"cask",c:"Android Dev",d:"ADB/fastboot — debug and sideload Android devices",gh:"https://developer.android.com/studio/releases/platform-tools"},
+  {n:"bruno",t:"cask",c:"API/Testing",d:"Open-source API client — like Postman, fully offline-first",gh:"https://github.com/usebruno/bruno"},
+  {n:"claude-code",t:"cask",c:"AI/Dev",d:"Anthropic's Claude AI coding assistant for the terminal",gh:"https://github.com/anthropics/claude-code"},
+  {n:"electrum",t:"cask",c:"Crypto",d:"Lightweight Bitcoin wallet",gh:"https://github.com/spesmilo/electrum"},
+  {n:"font-jetbrains-mono",t:"cask",c:"Fonts",d:"JetBrains Mono — popular monospace coding font",gh:"https://github.com/JetBrains/JetBrainsMono"},
+  {n:"font-jetbrains-mono-nerd-font",t:"cask",c:"Fonts",d:"JetBrains Mono patched with Nerd Font icons",gh:"https://github.com/ryanoasis/nerd-fonts"},
+  {n:"font-symbols-only-nerd-font",t:"cask",c:"Fonts",d:"Nerd Font symbols-only pack for icon support in terminals",gh:"https://github.com/ryanoasis/nerd-fonts"},
+  {n:"ghostty",t:"cask",c:"Terminal",d:"Fast, native terminal emulator by Mitchell Hashimoto",gh:"https://github.com/ghostty-org/ghostty"},
+  {n:"karabiner-elements",t:"cask",c:"macOS",d:"Powerful keyboard customizer for macOS",gh:"https://github.com/pqrs-org/Karabiner-Elements"},
+  {n:"numi",t:"cask",c:"macOS",d:"Natural language calculator app for macOS",gh:"https://github.com/nicktindall/numi"},
+  {n:"t3-code",t:"cask",c:"AI/Dev",d:"T3 stack CLI scaffolding tool",gh:"https://github.com/t3-oss/create-t3-app"},
+];
+
+const catColors = {
+  'Shell':'#34d399','CLI Tools':'#a78bfa','Git':'#fb923c','DevOps':'#38bdf8',
+  'Cloud/DevOps':'#38bdf8','Runtime':'#f472b6','Node.js':'#34d399','Python':'#facc15',
+  'Database':'#38bdf8','Security':'#fb7185','Networking':'#38bdf8','Media':'#fb923c',
+  'Graphics':'#f472b6','Fonts':'#8b8b92','Build Tools':'#facc15','Dev Libs':'#8b8b92',
+  'Dev Tools':'#a78bfa','API/Testing':'#34d399','AI/Dev':'#c084fc','AI/ML':'#c084fc',
+  'iOS Dev':'#38bdf8','Android Dev':'#34d399','macOS':'#fb923c','Terminal':'#a78bfa',
+  'PDF/Print':'#8b8b92','Performance':'#facc15','System':'#8b8b92','Editor':'#c084fc',
+  'Mobile Testing':'#34d399','Compression':'#8b8b92','Crypto':'#facc15'
+};
+
+const cats = [...new Set(packages.map(p=>p.c))].sort();
+let activeCat = 'All';
+let viewMode = 'grid';
+
+// Update header stats
+const formulaeCount = packages.filter(p=>p.t==='formula').length;
+const casksCount = packages.filter(p=>p.t==='cask').length;
+document.getElementById('totalCount').textContent = packages.length;
+document.querySelector('.stat:nth-child(2) .stat-num').textContent = formulaeCount;
+document.querySelector('.stat:nth-child(3) .stat-num').textContent = casksCount;
+document.querySelector('#formulaeStat').textContent = 'formulae';
+document.querySelector('#casksStat').textContent = 'casks';
+
+function buildCats(){
+  const bar = document.getElementById('catBar');
+  bar.innerHTML = ['All',...cats].map(c=>`
+    <button class="cat-btn${activeCat===c?' active':''}" onclick="setCat('${c}')">${c}</button>
+  `).join('');
+}
+
+function setCat(c){ activeCat=c; buildCats(); render(); }
+function setView(v){
+  viewMode=v;
+  document.getElementById('gridBtn').classList.toggle('active', v==='grid');
+  document.getElementById('listBtn').classList.toggle('active', v==='list');
+  render();
+}
+
+function ghIcon(){
+  return `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>`;
+}
+
+function render(){
+  const q = document.getElementById('search').value.toLowerCase();
+  const filtered = packages.filter(p=>{
+    const matchCat = activeCat==='All'||p.c===activeCat;
+    const matchQ = !q||p.n.toLowerCase().includes(q)||p.d.toLowerCase().includes(q)||p.c.toLowerCase().includes(q);
+    return matchCat&&matchQ;
+  });
+
+  document.getElementById('resultCount').textContent = filtered.length + ' packages';
+
+  const empty = document.getElementById('empty');
+  empty.style.display = filtered.length===0 ? 'block' : 'none';
+
+  if(viewMode==='grid'){
+    document.getElementById('gridView').classList.add('active');
+    document.getElementById('listView').classList.remove('active');
+    renderGrid(filtered);
+  } else {
+    document.getElementById('gridView').classList.remove('active');
+    document.getElementById('listView').classList.add('active');
+    renderList(filtered);
+  }
+}
+
+function renderGrid(items){
+  const grid = document.getElementById('gridView');
+  grid.innerHTML = items.map(p=>{
+    const col = catColors[p.c]||'#6b6b72';
+    return `
+      <div class="pkg-card">
+        <div class="pkg-card-top">
+          <a class="pkg-name" href="${p.gh}" target="_blank">${p.n}</a>
+          <a class="pkg-link" href="${p.gh}" target="_blank" title="GitHub">${ghIcon()}</a>
+        </div>
+        <div class="pkg-desc">${p.d}</div>
+        <div class="pkg-footer">
+          <span class="cat-tag" style="color:${col};border-color:${col}22;background:${col}11">${p.c}</span>
+          <span class="type-badge">${p.t}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderList(items){
+  const list = document.getElementById('listView');
+  const byCat = {};
+  items.forEach(p=>{ if(!byCat[p.c]) byCat[p.c]=[]; byCat[p.c].push(p); });
+  list.innerHTML = Object.entries(byCat).sort((a,b)=>a[0].localeCompare(b[0])).map(([cat, pkgs])=>`
+    <div class="list-section">
+      <div class="list-section-title">${cat} <span style="opacity:0.5">(${pkgs.length})</span></div>
+      ${pkgs.map(p=>`
+        <div class="list-row">
+          <a class="list-name" href="${p.gh}" target="_blank">${p.n}</a>
+          <span class="list-desc">${p.d}</span>
+          <span class="list-cat">${p.c}</span>
+          <a class="list-link" href="${p.gh}" target="_blank">${ghIcon()} github</a>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+buildCats();
+render();
+</script>
+</body>
+</html>
