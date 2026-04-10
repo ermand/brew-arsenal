@@ -20,4 +20,4 @@ jobs:
           node-version: "lts/*"
 
       - name: Run HTMLHint
-        run: npx --yes htmlhint@1.1.4 brew-packages.html
+        run: npx --yes htmlhint@1.1.4 index.html
