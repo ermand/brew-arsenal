@@ -1,4 +1,4 @@
-# Ermand's Brew Arsenal — mirrors brew-packages.html
+# Ermand's Brew Arsenal — mirrors index.html (packages list)
 # Install: brew bundle install --file=Brewfile
 # Some formulae/casks may need extra taps; if `brew bundle` errors, run the suggested `brew tap ...` and retry.
 

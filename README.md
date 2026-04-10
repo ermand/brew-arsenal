@@ -6,7 +6,7 @@ A single-file, dark-themed dashboard for the [Homebrew](https://brew.sh) **formu
 
 [![Lint HTML](https://github.com/ermand/brew-arsenal/actions/workflows/lint-html.yml/badge.svg)](https://github.com/ermand/brew-arsenal/actions/workflows/lint-html.yml)
 
-On every push and pull request to `main`, [HTMLHint](https://htmlhint.com/) runs against [`brew-packages.html`](./brew-packages.html) (see [`.github/workflows/lint-html.yml`](./.github/workflows/lint-html.yml)).
+On every push and pull request to `main`, [HTMLHint](https://htmlhint.com/) runs against [`index.html`](./index.html) (see [`.github/workflows/lint-html.yml`](./.github/workflows/lint-html.yml)).
 
 ---
 
@@ -25,7 +25,7 @@ On every push and pull request to `main`, [HTMLHint](https://htmlhint.com/) runs
 ```bash
 git clone git@github.com:ermand/brew-arsenal.git
 cd brew-arsenal
-open brew-packages.html   # macOS
+open index.html   # macOS
 # or double-click the file / drag into a browser
 ```
 
@@ -33,7 +33,7 @@ open brew-packages.html   # macOS
 
 ## Install the same packages (Brewfile)
 
-The repo includes a [`Brewfile`](./Brewfile) that matches [`brew-packages.html`](./brew-packages.html): Homebrew **formulae** and **casks** in one place for [`brew bundle`](https://docs.brew.sh/Manpage#bundle-subcommand).
+The repo includes a [`Brewfile`](./Brewfile) that matches [`index.html`](./index.html): Homebrew **formulae** and **casks** in one place for [`brew bundle`](https://docs.brew.sh/Manpage#bundle-subcommand).
 
 ```bash
 cd brew-arsenal
@@ -64,20 +64,20 @@ When you add or remove packages in the HTML, update the `Brewfile` (and this sec
 1. Repo → **Settings** → **Pages**.
 2. **Build and deployment**: deploy from the `main` branch, root or `/docs` as you prefer.
 3. After the first deploy, the page is typically at  
-   `https://ermand.github.io/brew-arsenal/brew-packages.html`  
+   `https://ermand.github.io/brew-arsenal/`  
    (exact URL depends on your Pages configuration.)
 
 ---
 
 ## Customizing the list
 
-Package data lives in the `packages` array near the bottom of [`brew-packages.html`](./brew-packages.html). Each entry looks like:
+Package data lives in the `packages` array near the bottom of [`index.html`](./index.html). Each entry looks like:
 
 ```js
 { n: "name", t: "formula" | "cask", c: "Category", d: "Short description", gh: "https://..." }
 ```
 
-After editing, refresh the browser. Update the “last updated” line in the header (`~ brew list · last updated …`) if you want that metadata to stay honest. Keep [`Brewfile`](./Brewfile) in sync if you use `brew bundle` to reproduce the stack.
+After editing, refresh the browser. Update the “last updated” line in the header (`~ brew list · last updated …`) if you want that metadata to stay honest. Keep [`Brewfile`](./Brewfile) in sync if you use `brew bundle` to reproduce the stack. Use **`index.html`** as the site entry file so static hosts (Forge, GitHub Pages, nginx `index`) serve it at `/`.
 
 ---
 
